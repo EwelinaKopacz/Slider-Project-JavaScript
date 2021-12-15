@@ -69,7 +69,7 @@ const initCustomEvents = function(imagesList, sliderRootElement, imagesSelector)
     sliderRootElement.addEventListener('js-slider-close', onClose);
 }
 
-const onImageClick = function(event, sliderRootElement, imagesSelector) {//event,section-js-slider,klasa - .gallery__item
+const onImageClick = function(event, sliderRootElement, imagesSelector) {// (event, section-js-slider, klasa-.gallery__item)
     // todo:
     // 1. dodać klasę [.js-slider--active], aby pokazać całą sekcję
     // 2. wyszukać ściężkę (atrybut [src]) do klikniętego elementu i wstawić do [.js-slider__image]
@@ -90,7 +90,7 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {//event
         if(parent.hasChildNodes()){
             const imgTag = parent.firstElementChild;
             const imgSrc = imgTag.getAttribute('src');
-             newImageSlider.setAttribute('src',imgSrc);
+            newImageSlider.setAttribute('src',imgSrc);
         }
         const groupName = event.target.dataset.sliderGroupName;
         const thumbGroup = newGroupName.filter(function(item){
@@ -109,7 +109,8 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {//event
             const newThumbChildren = [...thumbChildren];
             newThumbChildren.forEach(function(ele){
                 ele.setAttribute('src',imgSrc);
-            })
+                console.log(imgSrc);
+                })
             }
         }
         const sliderThumbFirst = sliderThumb.firstElementChild;
