@@ -87,7 +87,6 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {//event
     if(event.target.tagName === 'FIGURE'){
         sliderRootElement.classList.add('js-slider--active');
         const parent = event.target;
-
         if(parent.hasChildNodes()){
             const imgTag = parent.firstElementChild;
             const imgSrc = imgTag.getAttribute('src');
@@ -99,20 +98,22 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {//event
                 return item;
             }
         });
-        console.log(thumbGroup);
-        const children = thumbGroup.children;
-        console.log(children);
-
         if(sliderThumb && thumbPrototype){
-            for(i=0; i<thumbGroup.length-1; i++){
+            for(i=0; i<thumbGroup.length; i++){
             thumbPrototype.classList.remove('js-slider__thumbs-item--prototype');
             const cloneThumb = thumbPrototype.cloneNode(true);
             sliderThumb.appendChild(cloneThumb);
+            const child = thumbGroup[i].firstElementChild;
+            const imgSrc = child.getAttribute('src');
+            const thumbChildren = cloneThumb.children;
+            const newThumbChildren = [...thumbChildren];
+            newThumbChildren.forEach(function(ele){
+                ele.setAttribute('src',imgSrc);
+            })
             }
         }
-        thumbGroup
-       
-
+        const sliderThumbFirst = sliderThumb.firstElementChild;
+        sliderThumb.removeChild(sliderThumbFirst);
     }
 }
 
