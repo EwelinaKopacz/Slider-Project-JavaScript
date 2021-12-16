@@ -89,11 +89,14 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {// (eve
     // 5. utworzyć na podstawie elementu [.js-slider__thumbs-item--prototype] zawartość dla [.js-slider__thumbs]
     // 6. zaznaczyć przy pomocy klasy [.js-slider__thumbs-image--current], który element jest aktualnie wyświetlany
 
+    const currentImagClassName = 'js-slider__thumbs-image--current';
+    const emptyImgElement = 'js-slider__thumbs-item--prototype';
+
     const newImageSlider = document.querySelector('.js-slider__image');
     const groupName = document.querySelectorAll(imagesSelector);
     const newGroupName = [...groupName];
     const sliderThumb = document.querySelector('.js-slider__thumbs');
-    const thumbPrototype = document.querySelector('.js-slider__thumbs-item');
+    const thumbPrototype = sliderThumb.querySelector('.js-slider__thumbs-item');
 
     if(event.target.tagName === 'FIGURE'){
         sliderRootElement.classList.add('js-slider--active');
@@ -114,16 +117,17 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {// (eve
             for(i=0; i<thumbGroup.length; i++){
 
             const cloneThumb = thumbPrototype.cloneNode(true);
-            sliderThumb.appendChild(cloneThumb)
-            cloneThumb.classList.remove('js-slider__thumbs-item--prototype');
+            sliderThumb.appendChild(cloneThumb).classList.remove(emptyImgElement);
+            
             const child = thumbGroup[i].firstElementChild;
             const imgSrc = child.getAttribute('src');
-            const thumbChildren = cloneThumb.children;
+        
+            const thumbChildren = cloneThumb.children;  // Czy zamiast zmiany nodeList na tablice, mozna tutaj uzyc petli na obiekty for in?
             const newThumbChildren = [...thumbChildren];
             newThumbChildren.forEach(function(elem){
                 elem.setAttribute('src',imgSrc);
                 if(imgSrc === imgSrcTarget){
-                    elem.classList.add('js-slider__thumbs-image--current');
+                    elem.classList.add(currentImagClassName);
                 }
                 })
             }
@@ -141,14 +145,29 @@ const onImageNext = function(event) {
     // 4. przełączyć klasę [.js-slider__thumbs-image--current] do odpowiedniego elementu
     // 5. podmienić atrybut o nazwie [src] dla [.js-slider__image]
 
-    const currentImg = document.querySelector('.js-slider__thumbs-image--current');
+    const currentImagClassName = 'js-slider__thumbs-image--current';
+    const emptyImgElement = 'js-slider__thumbs-item--prototype';
+
+    const parentAllSection = document.querySelector('.js-slider__thumbs');
+    const currentImg = parentAllSection.querySelector('.js-slider__thumbs-image--current');
     const parentCurrentImg = currentImg.parentElement;
     const nextParrentImg = parentCurrentImg.nextElementSibling;
+    const firstImg = parentAllSection.firstElementChild;
 
-    if(nextParrentImg){
-        nextParrentImg.querySelector('img').classList.add('js-slider__thumbs-image--current');
-        parentCurrentImg.querySelector('img').classList.remove('js-slider__thumbs-image--current');
+    if(nextParrentImg !== null){
+        nextParrentImg.querySelector('img').classList.add(currentImagClassName);
+        parentCurrentImg.querySelector('img').classList.remove(currentImagClassName);
         const imgSrc = nextParrentImg.querySelector('img').getAttribute('src');
+        const curretSliderImg = document.querySelector('.js-slider__image');
+        curretSliderImg.setAttribute('src',imgSrc);
+    }
+    else { // ZADANIE DODATKOWE NR 1
+        firstImg.classList.contains(emptyImgElement);
+        const correctImg = firstImg.nextElementSibling;
+        correctImg.querySelector('img').classList.add(currentImagClassName);
+        parentCurrentImg.querySelector('img').classList.remove(currentImagClassName);
+
+        const imgSrc = correctImg.querySelector('img').getAttribute('src');
         const curretSliderImg = document.querySelector('.js-slider__image');
         curretSliderImg.setAttribute('src',imgSrc);
     }
@@ -164,19 +183,31 @@ const onImagePrev = function(event) {
     // 4. przełączyć klasę [.js-slider__thumbs-image--current] do odpowiedniego elementu
     // 5. podmienić atrybut [src] dla [.js-slider__image]
 
-    const currentImg = document.querySelector('.js-slider__thumbs-image--current');
+    const currentImagClassName = 'js-slider__thumbs-image--current';
+    const emptyImgElement = 'js-slider__thumbs-item--prototype';
+
+    const parentAllSection = document.querySelector('.js-slider__thumbs');
+    const currentImg = parentAllSection.querySelector('.js-slider__thumbs-image--current');
     const parentCurrentImg = currentImg.parentElement;
     const prevParrentImg = parentCurrentImg.previousElementSibling;
+    const lastImg = parentAllSection.lastElementChild;
 
-    if(prevParrentImg && !prevParrentImg.classList.contains('js-slider__thumbs-item--prototype')){
-        prevParrentImg.querySelector('img').classList.add('js-slider__thumbs-image--current')
-        parentCurrentImg.querySelector('img').classList.remove('js-slider__thumbs-image--current');
+    if(prevParrentImg && !prevParrentImg.classList.contains(emptyImgElement)){
+        prevParrentImg.querySelector('img').classList.add(currentImagClassName)
+        parentCurrentImg.querySelector('img').classList.remove(currentImagClassName);
 
         const imgSrc = prevParrentImg.querySelector('img').getAttribute('src');
         const curretSliderImg = document.querySelector('.js-slider__image');
         curretSliderImg.setAttribute('src',imgSrc);
     }
-    
+    else { // ZADANIE DODATKOWE NR 1
+        lastImg.querySelector('img').classList.add(currentImagClassName)
+        parentCurrentImg.querySelector('img').classList.remove(currentImagClassName);
+
+        const imgSrc = lastImg.querySelector('img').getAttribute('src');
+        const curretSliderImg = document.querySelector('.js-slider__image');
+        curretSliderImg.setAttribute('src',imgSrc);
+    }
 }
 
 const onClose = function(event) {
@@ -184,6 +215,7 @@ const onClose = function(event) {
     // 1. należy usunać klasę [js-slider--active] dla [.js-slider]
     // 2. należy usunać wszystkie dzieci dla [.js-slider__thumbs] pomijając [.js-slider__thumbs-item--prototype]
 
+    const emptyImgElement = 'js-slider__thumbs-item--prototype';
     const rootElement = document.querySelector('.js-slider');
     rootElement.classList.remove('js-slider--active');
 
@@ -192,7 +224,7 @@ const onClose = function(event) {
         const childThumb = sliderThumb.children;
         const childArray = [...childThumb];
         childArray.forEach(function(item){
-            if(!item.classList.contains('js-slider__thumbs-item--prototype')){
+            if(!item.classList.contains(emptyImgElement)){
             sliderThumb.removeChild(item);
             }
         });
