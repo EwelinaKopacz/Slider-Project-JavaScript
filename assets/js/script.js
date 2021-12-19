@@ -10,13 +10,11 @@ const init = function() {
 document.addEventListener('DOMContentLoaded', init);
 
 const runJSSlider = function() {
-    const imagesSelector = '.gallery__item'; // przypisannie do zmiennej klasy
+    const imagesSelector = '.gallery__item'; 
     const sliderRootSelector = '.js-slider';
 
     const imagesList = document.querySelectorAll(imagesSelector); // zmienna ImagesList - nodeList ze wszystkimi zdjęciami, ktore maja klase .gallery__item
-    // console.log(imagesList);
     const sliderRootElement = document.querySelector(sliderRootSelector); //zmienna sliderRootElement - zawiera  sekcje js-slider - sekcja do pokazu slajdow
-    // console.log(sliderRootElement);
 
     initEvents(imagesList, sliderRootElement);
     initCustomEvents(imagesList, sliderRootElement, imagesSelector);
@@ -26,7 +24,6 @@ const initEvents = function(imagesList, sliderRootElement) {
     imagesList.forEach( function(item)  {
         item.addEventListener('click', function(e) { // do kazdego zdjecia dodajemy nasluchiwanie na klikniecie i wywolujemy f-cje fireCustomEvent
             fireCustomEvent(e.currentTarget, 'js-slider-img-click'); // wywołanie funkcji, ktora ma dwa argumenty, klikniety element (e.currentTarget) i string 'js-slider-img-click'
-            // console.log(e.currentTarget);
         });
     });
 
@@ -36,6 +33,7 @@ const initEvents = function(imagesList, sliderRootElement) {
     const navNext = sliderRootElement.querySelector('.js-slider__nav--next');
     navNext.addEventListener('click', function(e){
         fireCustomEvent(e.currentTarget, 'js-slider-img-next');
+        e.stopPropagation();
     });
 
     // todo:
@@ -44,6 +42,7 @@ const initEvents = function(imagesList, sliderRootElement) {
     const navPrev = sliderRootElement.querySelector('.js-slider__nav--prev');
     navPrev.addEventListener('click',function(e){
         fireCustomEvent(e.currentTarget, 'js-slider-img-prev');
+        e.stopPropagation();
     });
 
 
@@ -52,9 +51,9 @@ const initEvents = function(imagesList, sliderRootElement) {
     // tylko wtedy, gdy użytkownik kliknie w [.js-slider__zoom]
     const zoom = sliderRootElement.querySelector('.js-slider__zoom');
     zoom.addEventListener('click',function(e){
-        if(e.target === zoom){
+        // if(e.target === zoom){ // alternatywa do e.stopPropagation()
         fireCustomEvent(e.currentTarget,'js-slider-close');
-        }
+        // }
     })
 }
 
@@ -77,7 +76,7 @@ const initCustomEvents = function(imagesList, sliderRootElement, imagesSelector)
 
     sliderRootElement.addEventListener('js-slider-img-next', onImageNext); // wywołanie własnych zdarzen
     sliderRootElement.addEventListener('js-slider-img-prev', onImagePrev);
-    sliderRootElement.addEventListener('js-slider-close', onClose);
+    sliderRootElement.addEventListener('js-slider-close', onClose); //sliderRootSelector = '.js-slider';
 }
 
 const onImageClick = function(event, sliderRootElement, imagesSelector) {// (event, section-js-slider, klasa-.gallery__item)
@@ -89,48 +88,47 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {// (eve
     // 5. utworzyć na podstawie elementu [.js-slider__thumbs-item--prototype] zawartość dla [.js-slider__thumbs]
     // 6. zaznaczyć przy pomocy klasy [.js-slider__thumbs-image--current], który element jest aktualnie wyświetlany
 
+    sliderRootElement.classList.add('js-slider--active');
+
     const currentImagClassName = 'js-slider__thumbs-image--current';
     const emptyImgElement = 'js-slider__thumbs-item--prototype';
 
-    const newImageSlider = document.querySelector('.js-slider__image');
-    const groupName = document.querySelectorAll(imagesSelector);
-    const newGroupName = [...groupName];
-    const sliderThumb = document.querySelector('.js-slider__thumbs');
+    const newImageSlide = sliderRootElement.querySelector('.js-slider__image');
+    const imageTypeName = document.querySelectorAll(imagesSelector);
+    const identicalImageType = [...imageTypeName];
+    const sliderThumb = sliderRootElement.querySelector('.js-slider__thumbs');
     const thumbPrototype = sliderThumb.querySelector('.js-slider__thumbs-item');
 
-    if(event.target.tagName === 'FIGURE'){
-        sliderRootElement.classList.add('js-slider--active');
-        const parent = event.target;
-        let imgSrcTarget;
-        if(parent.hasChildNodes()){
-            const imgTag = parent.firstElementChild;
-            imgSrcTarget = imgTag.getAttribute('src');
-            newImageSlider.setAttribute('src',imgSrcTarget);
-        }
-        const groupName = event.target.dataset.sliderGroupName;
-        const thumbGroup = newGroupName.filter(function(item){
-            if(item.dataset.sliderGroupName === groupName){
-                return item;
+    let imgSrcTarget;
+    if(event.target.hasChildNodes()){
+        const imgTag = event.target.firstElementChild;
+        imgSrcTarget = imgTag.getAttribute('src');
+        newImageSlide.setAttribute('src',imgSrcTarget);
+    }
+    const clickImageTypeName = event.target.dataset.sliderGroupName;
+    const thumbGroup = identicalImageType.filter(function(item){
+        if(item.dataset.sliderGroupName === clickImageTypeName){
+            return item;
             }
         });
-        if(sliderThumb && thumbPrototype){
-            for(i=0; i<thumbGroup.length; i++){
 
-            const cloneThumb = thumbPrototype.cloneNode(true);
-            sliderThumb.appendChild(cloneThumb).classList.remove(emptyImgElement);
-            
-            const child = thumbGroup[i].firstElementChild;
-            const imgSrc = child.getAttribute('src');
-        
-            const thumbChildren = cloneThumb.children;  // Czy zamiast zmiany nodeList na tablice, mozna tutaj uzyc petli na obiekty for in?
-            const newThumbChildren = [...thumbChildren];
-            newThumbChildren.forEach(function(elem){
-                elem.setAttribute('src',imgSrc);
+    if(sliderThumb && thumbPrototype){ //lepsze rozwiązanie metoda forEach() 
+        for(i=0; i<thumbGroup.length; i++){
+
+        const cloneThumb = thumbPrototype.cloneNode(true);
+        sliderThumb.appendChild(cloneThumb).classList.remove(emptyImgElement);
+
+        const child = thumbGroup[i].firstElementChild;
+        const imgSrc = child.getAttribute('src');
+
+        const thumbChildren = cloneThumb.children; 
+        const newThumbChildren = [...thumbChildren];
+        newThumbChildren.forEach(function(elem){
+            elem.setAttribute('src',imgSrc);
                 if(imgSrc === imgSrcTarget){
                     elem.classList.add(currentImagClassName);
                 }
-                })
-            }
+            });
         }
     }
 }
@@ -215,11 +213,16 @@ const onClose = function(event) {
     // 1. należy usunać klasę [js-slider--active] dla [.js-slider]
     // 2. należy usunać wszystkie dzieci dla [.js-slider__thumbs] pomijając [.js-slider__thumbs-item--prototype]
 
-    const emptyImgElement = 'js-slider__thumbs-item--prototype';
-    const rootElement = document.querySelector('.js-slider');
-    rootElement.classList.remove('js-slider--active');
+    console.log(event.target); //js-slider__zoom
+    console.log(event.currentTarget) //js-slider
 
-    const sliderThumb = document.querySelector('.js-slider__thumbs');
+    const zoom = event.currentTarget.querySelector('.js-slider__zoom');
+        if(event.target === zoom){
+        event.currentTarget.classList.remove('js-slider--active');
+    }
+
+    const emptyImgElement = 'js-slider__thumbs-item--prototype';
+    const sliderThumb = event.currentTarget.querySelector('.js-slider__thumbs');
     if(sliderThumb && sliderThumb.hasChildNodes()){
         const childThumb = sliderThumb.children;
         const childArray = [...childThumb];
