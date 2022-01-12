@@ -1,19 +1,19 @@
 # JavaScript Events - Slider Project
 
 ## About the project:
-The aim of this project was create slider after clicking by choosen image. I got a part of code from another developer. HTML and CSS code was ready and I couldn't modify those files. Another developer prepared a part of JS code. I had to finish the project keeping the existing convention  The project is based on CustomEvents. My task was to add:
+The aim of this project was create slider after clicking by choosen image. I got a part of code from another developer. HTML and CSS code was ready and I couldn't modify those files. Another developer prepared a part of JS code. I had to finish the project keeping the existing convention. The project is based on CustomEvents. My task was to add:
 * event listener to fire appropriate events
 * create functions like:
-    * 'onImageClick' - function to show clicked image, group the imges with the same group name and show them below in the thumbnail and mark the current image by adding the right class (the yellow border).
-    * 'onImageNext' - function: change the image after clicking 'next' arrow on the slider. If you change a image (click next arrow) mark of current image moves too).
-    * 'onImagePrev' - function: change the image after clicking 'prev' arrow on the slider. If you change a image (click prev arrow) mark of current image moves too).
-    * 'onClose' - function: close the slider and back to the home view.
+    * 'onImageClick' - function to show clicked image, group the imges with the same group name, show them below in the thumbnail and mark the current image by adding the right class (the yellow border).
+    * 'onImageNext' - function to change the image after clicking 'next' arrow on the slider. If you change a image (click next arrow) mark of current image moves too).
+    * 'onImagePrev' - function to change the image after clicking 'prev' arrow on the slider. If you change a image (click prev arrow) mark of current image moves too).
+    * 'onClose' - function to close the slider and back to the home view.
 
 * when you reach to the last photo, you will get a first one.
 
 
 ## How to use it
-Please visit the website below and click on the choosen image to see how slider works.
+Please visit the website below and click on the one image to see how slider works.
 
 ## Technologies:
 
