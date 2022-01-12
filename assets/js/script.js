@@ -10,7 +10,7 @@ const init = function() {
 document.addEventListener('DOMContentLoaded', init);
 
 const runJSSlider = function() {
-    const imagesSelector = '.gallery__item'; 
+    const imagesSelector = '.gallery__item';
     const sliderRootSelector = '.js-slider';
 
     const imagesList = document.querySelectorAll(imagesSelector); // zmienna ImagesList - nodeList ze wszystkimi zdjęciami, ktore maja klase .gallery__item
@@ -23,7 +23,7 @@ const runJSSlider = function() {
 const initEvents = function(imagesList, sliderRootElement) {
     imagesList.forEach( function(item)  {
         item.addEventListener('click', function(e) { // do kazdego zdjecia dodajemy nasluchiwanie na klikniecie i wywolujemy f-cje fireCustomEvent
-            fireCustomEvent(e.currentTarget, 'js-slider-img-click'); // wywołanie funkcji, ktora ma dwa argumenty, klikniety element (e.currentTarget) i string 'js-slider-img-click'
+            fireCustomEvent(e.currentTarget, 'js-slider-img-click'); // wywołanie funkcji, ktora ma dwa argumenty, e.currentTarget - element do ktorego podpielismy f-cje nasluchujaca dane zdarzenie, i string 'js-slider-img-click'
         });
     });
 
@@ -32,7 +32,7 @@ const initEvents = function(imagesList, sliderRootElement) {
     // na elemencie [.js-slider__nav--next]
     const navNext = sliderRootElement.querySelector('.js-slider__nav--next');
     navNext.addEventListener('click', function(e){
-        fireCustomEvent(e.currentTarget, 'js-slider-img-next');
+        fireCustomEvent(e.currentTarget, 'js-slider-img-next'); // e.currentTarget - element do ktorego podpielismy f-cje nasluchujaca dane zdarzenie
         e.stopPropagation();
     });
 
@@ -50,9 +50,9 @@ const initEvents = function(imagesList, sliderRootElement) {
     // utwórz nasłuchiwanie eventu o nazwie [click], który ma uruchomić event [js-slider-close]
     // tylko wtedy, gdy użytkownik kliknie w [.js-slider__zoom]
     const zoom = sliderRootElement.querySelector('.js-slider__zoom');
-    zoom.addEventListener('click',function(e){
+    zoom.addEventListener('click',function(e){ // zdarzenie 'click' i eventHandler - function(e)
         // if(e.target === zoom){ // alternatywa do e.stopPropagation()
-        fireCustomEvent(e.currentTarget,'js-slider-close');
+        fireCustomEvent(e.currentTarget,'js-slider-close');// e.currentTarget - cel zdarzenia, bedacy obiektem kontekstu
         // }
     })
 }
@@ -60,16 +60,16 @@ const initEvents = function(imagesList, sliderRootElement) {
 const fireCustomEvent = function(element, name) {
     console.log(element.className, '=>', name);
 
-    const event = new CustomEvent(name, {
-        bubbles: true,
+    const event = new CustomEvent(name, { // nazwa customEvent to "name"? nie jest w ' '?
+        bubbles: true,                    // drugi parametr czyli dodatkowe ustawienia, parametr opcjonalny
     });
 
-    element.dispatchEvent( event ); // na kazdym elemencie wykonuje customEvent = 'event'
+    element.dispatchEvent( event ); // na kazdym elemencie wykonuje (wywołanie) customEvent = 'event'??
 }
 
 const initCustomEvents = function(imagesList, sliderRootElement, imagesSelector) {
     imagesList.forEach(function(img) {
-        img.addEventListener('js-slider-img-click', function(event) { //wywołanie własnego zdarzenia "js-slider-img-click"
+        img.addEventListener('js-slider-img-click', function(event) { //nasluchiwanie na wszystkie zdjcia, przypięte własne zdarzenie "js-slider-img-click"
             onImageClick(event, sliderRootElement, imagesSelector);
         });
     });
@@ -112,7 +112,7 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {// (eve
             }
         });
 
-    if(sliderThumb && thumbPrototype){ //lepsze rozwiązanie metoda forEach() 
+    if(sliderThumb && thumbPrototype){ //lepsze rozwiązanie metoda forEach()
         for(i=0; i<thumbGroup.length; i++){
 
         const cloneThumb = thumbPrototype.cloneNode(true);
@@ -121,7 +121,7 @@ const onImageClick = function(event, sliderRootElement, imagesSelector) {// (eve
         const child = thumbGroup[i].firstElementChild;
         const imgSrc = child.getAttribute('src');
 
-        const thumbChildren = cloneThumb.children; 
+        const thumbChildren = cloneThumb.children;
         const newThumbChildren = [...thumbChildren];
         newThumbChildren.forEach(function(elem){
             elem.setAttribute('src',imgSrc);
@@ -223,6 +223,7 @@ const onClose = function(event) {
 
     const emptyImgElement = 'js-slider__thumbs-item--prototype';
     const sliderThumb = event.currentTarget.querySelector('.js-slider__thumbs');
+
     if(sliderThumb && sliderThumb.hasChildNodes()){
         const childThumb = sliderThumb.children;
         const childArray = [...childThumb];
