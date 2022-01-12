@@ -1,13 +1,15 @@
 # JavaScript Events - Slider Project
 
 ## About the project:
-The aim of this project was create slider after clicking by choosen image. I got a part of code from another developer. HTML and CSS code was ready and I couldn't modify those files. In JS file was code too and I had to keep the existing convention. The projest is based on CustomEvents. My task was to add:
-* addEventListener 'click' to fire the events
+The aim of this project was create slider after clicking by choosen image. I got a part of code from another developer. HTML and CSS code was ready and I couldn't modify those files. Another developer prepared a part of JS code. I had to finish the project keeping the existing convention  The projest is based on CustomEvents. My task was to add:
+* event listener to fire appropriate events
 * create functions like:
-    * 'onImageClick' - function: show clicked image, group the imges with the same group name and show them below in the thumbnail, mark the current image by adding the right class (the yellow border),
-    * 'onImageNext' - function: change the image after clicking 'next' arrow on the slider,
-    * 'onImagePrev' - function: change the image after clicking 'prev' arrow on the slider,
+    * 'onImageClick' - function to show clicked image, group the imges with the same group name and show them below in the thumbnail and mark the current image by adding the right class (the yellow border).
+    * 'onImageNext' - function: change the image after clicking 'next' arrow on the slider. If you change a image (click next arrow) mark of current image moves too).
+    * 'onImagePrev' - function: change the image after clicking 'prev' arrow on the slider. If you change a image (click prev arrow) mark of current image moves too).
     * 'onClose' - function: close the slider and back to the home view.
+
+* when you 
 
 
 ## How to use it
