@@ -27,7 +27,7 @@ Please visit the website below and click on the one image to see how slider work
 * Live Site URL: [E.Kopacz JS Events Slider Project](https://ekopacz-js-events-project.netlify.app)
 
 ## Solutions
-By creating this project I had a opportunity to practice:
+By creating this project I had an opportunity to practice:
 
 * understand the code written by another developer and create my part of solution. I think it was the most difficult thing to do,
 * using Event Object,
@@ -70,4 +70,4 @@ After clicking
 
 
 ### Thanks for project and support to Mateusz Bogolubow:
-* Mentor i Trener Programowania JavaScript - [See a website](https://devmentor.pl/) - Mateusz Bogolubow
+* Mentor i Trener Programowania JavaScript - [DevMentor](https://devmentor.pl/) - Mateusz Bogolubow
