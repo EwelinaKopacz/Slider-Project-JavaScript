@@ -1,6 +1,16 @@
 # JavaScript Events - Slider Project
 
-## About the project:
+## Table of Contents
+1. [About the project](#about-the-project)
+2. [How to use it](#how-to-use-it)
+3. [Technologies](#technologies)
+4. [Links](#links)
+5. [Solutions](#solutions)
+6. [Project preview](#project-preview)
+7. [Contact](#feel-free-to-contact-me)
+8. [Thanks](#thanks-for-project-and-support-to-Mateusz-Bogolubow)
+
+## About the project
 The aim of this project was create slider after clicking by choosen image. I got a part of code from another developer. HTML and CSS code was ready and I couldn't modify those files. Another developer prepared a part of JS code. I had to finish the project keeping the existing convention. The project is based on CustomEvents. My task was to add:
 * event listener to fire appropriate events
 * create functions like:
@@ -15,15 +25,13 @@ The aim of this project was create slider after clicking by choosen image. I got
 ## How to use it
 Please visit the website below and click on the one image to see how slider works.
 
-## Technologies:
-
+## Technologies
 * JavaScript
 * HTML
 * CSS
 * Desktop only version
 
 ## Links
-
 * Live Site URL: [E.Kopacz JS Events Slider Project](https://ekopacz-js-events-project.netlify.app)
 
 ## Solutions
@@ -56,18 +64,15 @@ const navPrev = sliderRootElement.querySelector('.js-slider__nav--prev');
     });
 ```
 
-### Feel free to contact me:
-
-* [Linkedin](https://www.linkedin.com/in/ewelina-kopacz-929559100/) - Ewelina Kopacz
-
 ### Project preview
-
 Before clicking
 ![Project-preview](./assets/preview/screen1.png)
 
 After clicking
 ![Project-preview](./assets/preview/screen2.png)
 
+### Feel free to contact me:
+* [Linkedin](https://www.linkedin.com/in/ewelina-kopacz-929559100/) - Ewelina Kopacz
 
 ### Thanks for project and support to Mateusz Bogolubow:
 * Mentor i Trener Programowania JavaScript - [DevMentor](https://devmentor.pl/) - Mateusz Bogolubow
